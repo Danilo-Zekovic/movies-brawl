@@ -11,6 +11,7 @@ import {
 import Button from '../../components/Button'
 import Card from '../../components/Card'
 import CardContainer from '../../components/CardsContainer'
+import Spinner from '../../components/Spinner'
 import { useFavorites } from '../../providers/Favorites'
 import { Movie } from '../../types'
 import { prepareValuesForDropdown, yearsAsDropdownOptions } from '../../utils'
@@ -23,10 +24,15 @@ const HomePage: FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>()
   const [selectedSortBy, setSelectedSortBy] = useState<SortByOptions>()
   const [searchTerm, setSearchTerm] = useState('')
+
   const { popular } = usePopular()
   const { genres } = useGenres()
-
-  const { getMovies, movies: searchedMovies, searchMovies } = useMovies()
+  const {
+    getMovies,
+    movies: searchedMovies,
+    searchMovies,
+    loading,
+  } = useMovies()
 
   useEffect(() => {
     setMovies(popular)
@@ -95,6 +101,7 @@ const HomePage: FC = () => {
           // @ts-ignore
           onChange={handleGenreSelect}
           className={styles['react-select']}
+          placeholder="Select Genres to filter by"
         />
         <Select
           options={yearsAsDropdownOptions()}
@@ -103,6 +110,7 @@ const HomePage: FC = () => {
           // @ts-ignore
           onChange={handleYearSelect}
           className={styles['react-select']}
+          placeholder="Select a Year to filter by"
         />
         <Select
           options={sortByOptions}
@@ -111,6 +119,7 @@ const HomePage: FC = () => {
           // @ts-ignore
           onChange={handleSortBySelect}
           className={styles['react-select']}
+          placeholder="Sort..."
         />
       </div>
       <Button onClick={handleClick}>Filter</Button>
@@ -127,7 +136,9 @@ const HomePage: FC = () => {
       </div>
 
       <CardContainer>
+        {loading && <Spinner />}
         {!!movies.length &&
+          !loading &&
           movies.map((movie) => (
             <Card
               movie={movie}

@@ -36,6 +36,12 @@
   pointer-events: none;
 }
 
+.links a.selected {
+  font-weight: bold;
+  color: brown;
+  text-shadow: 1px 1px cornsilk;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .logo-img {
     animation: App-logo-spin infinite 20s linear;

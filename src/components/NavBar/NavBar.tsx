@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import logo from '../../logo.svg'
 
@@ -14,8 +14,12 @@ const NavBar: FC = () => {
           {'>> Movies Brawl <<'}
         </div>
         <nav className={styles['links']}>
-          <Link to="/">Home</Link>
-          <Link to="/favorites">Favorites</Link>
+          <NavLink exact to="/" activeClassName={styles['selected']}>
+            Home
+          </NavLink>
+          <NavLink to="/favorites" activeClassName={styles['selected']}>
+            Favorites
+          </NavLink>
         </nav>
       </div>
     </header>

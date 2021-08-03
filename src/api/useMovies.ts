@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { Movie } from '../types'
 import { get } from './axios'
 
 const sortByOptions = [
@@ -21,9 +22,11 @@ interface GetMovies {
 }
 
 const useMovies = () => {
-  const [movies, setMovies] = useState([])
+  const [movies, setMovies] = useState<Movie[]>([])
+  const [loading, setLoading] = useState(false)
 
-  const getMovies = ({ genres, year, sortBy }: GetMovies) => {
+  const getMovies = useCallback(({ genres, year, sortBy }: GetMovies) => {
+    setLoading(true)
     const params = {
       ...(genres?.length && { with_genres: genres.join(',') }),
       // filter by date is correctly implemented, but it seams that on API side is something funky happening
@@ -34,22 +37,38 @@ const useMovies = () => {
     }
     get('/discover/movie', params).then(({ data }) => {
       setMovies(data.results || [])
+      setLoading(false)
     })
-  }
+  }, [])
 
-  const searchMovies = (query: string) => {
+  const searchMovies = useCallback((query: string) => {
+    setLoading(true)
     const params = {
       ...(query && { query: query }),
     }
     get('/search/movie', params).then(({ data }) => {
       setMovies(data.results || [])
+      setLoading(false)
     })
-  }
+  }, [])
+
+  const getMoviesById = useCallback((ids: number[]) => {
+    setLoading(true)
+    // NOTE: this is not the best way to do this, but the API used does not contain the end point to fetch by multiple ids
+    Promise.all(ids.map((id) => get(`/movie/${id}`))).then(function (results) {
+      const movies = results.map((result) => result.data)
+
+      setMovies(movies || [])
+      setLoading(false)
+    })
+  }, [])
 
   return {
     movies,
     getMovies,
     searchMovies,
+    getMoviesById,
+    loading,
   }
 }
 
