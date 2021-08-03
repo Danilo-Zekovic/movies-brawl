@@ -6,11 +6,14 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 import './index.css'
+import FavoritesProvider from './providers/Favorites/FavoritesProvider'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <FavoritesProvider>
+        <App />
+      </FavoritesProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
