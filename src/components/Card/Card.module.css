@@ -2,7 +2,18 @@
   background-color: tomato;
   margin: 0.5rem;
   max-width: 200px;
+  min-width: 200px;
   color: white;
+}
+
+.card-image {
+  min-height: 300px;
+  min-width: 200px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
 }
 
 .card-title {

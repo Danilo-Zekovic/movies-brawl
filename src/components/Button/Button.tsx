@@ -4,10 +4,10 @@ import styles from './Button.module.css'
 
 interface Props {
   onClick: () => void
-  type?: 'success' | 'warning'
+  type?: 'primary' | 'success' | 'warning'
 }
 
-const Button: FC<Props> = ({ children, onClick, type = 'success' }) => {
+const Button: FC<Props> = ({ children, onClick, type = 'primary' }) => {
   return (
     <button onClick={onClick} className={`${styles['button']} ${styles[type]}`}>
       {children}

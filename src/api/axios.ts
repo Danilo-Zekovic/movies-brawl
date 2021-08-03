@@ -7,10 +7,11 @@ const axiosInstance = axios.create({
   },
 })
 
-const get = async (url: string) => {
+const get = async <T>(url: string, params?: T) => {
   return await axiosInstance({
     method: 'GET',
     url,
+    params,
   })
     .then(({ data }) => {
       return { data, error: null }

@@ -1,40 +1,17 @@
 import { FC, memo } from 'react'
 
 import { Movie } from '../../types'
+import { formatDate } from '../../utils'
 import Button from '../Button'
 
 import styles from './Card.module.css'
+import logo from '../../logo.svg'
 
 interface Props {
   movie: Movie
   addFavorite: (id: number) => void
   removeFavorite: (id: number) => void
   isFavorite: boolean
-}
-const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-]
-
-// return example Aug 8, 2021
-const formatDate = (date: string) => {
-  const rawDate = new Date(date)
-
-  const month = months[rawDate.getMonth()]
-  const day = rawDate.getDate()
-  const year = rawDate.getFullYear()
-
-  return `${month} ${day}, ${year}`
 }
 
 const Card: FC<Props> = ({
@@ -54,10 +31,17 @@ const Card: FC<Props> = ({
   return (
     <div className={styles['card']}>
       <div className={styles['card-image']}>
-        <img
-          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-          alt={`Poster for ${movie.title}`}
-        />
+        {movie.poster_path ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+            alt={`Poster for ${movie.title}`}
+          />
+        ) : (
+          <>
+            <img src={logo} className={styles['logo-img']} alt="logo" />
+            <span>Movie Poster Not Found</span>
+          </>
+        )}
       </div>
       <div className={styles['card-description']}>
         <h4 className={styles['card-title']}>{movie.title}</h4>

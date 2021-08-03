@@ -6,13 +6,19 @@
   display: inline-block;
   font-size: 13px;
   cursor: pointer;
-  margin-top: 1rem;
+  margin: 1rem;
   text-transform: uppercase;
+  min-height: 38px;
 }
 
 .button:hover {
   opacity: 0.9;
   color: black;
+}
+
+.primary {
+  background-color: steelblue;
+  color: white;
 }
 
 .success {
